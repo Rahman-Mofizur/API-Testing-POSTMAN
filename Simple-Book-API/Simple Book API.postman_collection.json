@@ -9,6 +9,33 @@
 	"item": [
 		{
 			"name": "API Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);  // Means: Expected code is 200\r",
+							"});\r",
+							"\r",
+							"// Putting Json respons into a constant variable named result.\r",
+							"const result = pm.response.json();\r",
+							"\r",
+							"// Tells us the value of json response\r",
+							"console.log(result);\r",
+							"console.log(result.status);\r",
+							"console.log(result['status']);\r",
+							"\r",
+							"// Another test that shows us The Exapted result eqls to or not to the actual result\r",
+							"pm.test(\"Status should be OK\", function(){\r",
+							"    pm.expect(result.status).to.eql(\"OK\")\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -26,22 +53,89 @@
 		},
 		{
 			"name": "List of Books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function() {\r",
+							"    pm.response.to.have.status(200);  // Means: Expected code is 200\r",
+							"});\r",
+							"\r",
+							"// OR, you can define a function like that:\r",
+							"pm.test(\"Status code is 200\", ()=> {\r",
+							"    pm.response.to.have.status(200);  // Means: Expected code is 200\r",
+							"});\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"console.log(jsonData); // Gives output in console\r",
+							"\r",
+							"// All the information are in the array. So do this to have a single id and name.\r",
+							"// Starting array from 0. Here array[1] = 2nd no user.\r",
+							"console.log(jsonData[0]);\r",
+							"console.log(jsonData[0].id,jsonData[0].name);\r",
+							"\r",
+							"// Not Accepting ( not available non-fiction books )\r",
+							" const fictionBook = jsonData.filter((book)=> book.available === true);\r",
+							" console.log(fictionBook);\r",
+							"console.log(fictionBook[3]);\r",
+							"\r",
+							"const book = fictionBook[3];\r",
+							"\r",
+							"// Testing declared constant variable 'book' is an object or not!\r",
+							"pm.test(\"Book is an object\", ()=> {\r",
+							"    pm.expect(book).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"// Testing book is available or not\r",
+							"pm.test(\"Book Available\", ()=>{\r",
+							"    pm.expect(book.available).to.be.true;\r",
+							"})\r",
+							"\r",
+							"// Another way:\r",
+							"pm.test(\"Book Available\", ()=>{\r",
+							"    pm.expect(book.available).to.eql(true);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"The books are Fiction-type book\", ()=> {\r",
+							"    pm.expect(book.type).to.eql(\"fiction\");\r",
+							"});\r",
+							"\r",
+							"pm.globals.set(\"bookId\", fictionBook[3].id);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{BaseURL}}/books",
+					"raw": "{{BaseURL}}/books/?type=fiction",
 					"host": [
 						"{{BaseURL}}"
 					],
 					"path": [
-						"books"
+						"books",
+						""
 					],
 					"query": [
 						{
 							"key": "type",
-							"value": "fiction",
-							"disabled": true
+							"value": "fiction"
 						},
 						{
 							"key": "limit",
@@ -55,6 +149,19 @@
 		},
 		{
 			"name": "Get Single Book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);  // Means: Expected code is 200\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -70,7 +177,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1"
+							"value": "4"
 						}
 					]
 				}
@@ -79,6 +186,24 @@
 		},
 		{
 			"name": "Order Book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Actual result is 201 [Created] for POST method\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);   // Means: Expected code is 200\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);   // Means: Expected code is 201\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -94,7 +219,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"bookId\": 3,\r\n  \"customerName\": \"{{$randomFullName}}\"\r\n}\r\n",
+					"raw": "{\r\n  \"bookId\": 4,\r\n  \"customerName\": \"{{$randomFullName}}\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -115,6 +240,19 @@
 		},
 		{
 			"name": "Get all Book Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);   // Means: Expected code is 200\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -143,6 +281,19 @@
 		},
 		{
 			"name": "Get Single Book Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);   // Means: Expected code is 200\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -168,7 +319,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "kDT_wd_oMCVlMyxzE-EWC"
+							"value": "{{orderid}}"
 						}
 					]
 				}
@@ -177,6 +328,19 @@
 		},
 		{
 			"name": "Update a Book Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);   // Means: Expected code is 200\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -190,15 +354,6 @@
 				},
 				"method": "PATCH",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"customerName\": \"Mahin {{$randomLastName}}\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
 					"raw": "{{BaseURL}}/orders/:id",
 					"host": [
@@ -211,7 +366,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "kDT_wd_oMCVlMyxzE-EWC"
+							"value": "{{orderid}}"
 						}
 					]
 				}
@@ -220,6 +375,19 @@
 		},
 		{
 			"name": "Delete a Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);   // Means: Expected code is 200\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -245,7 +413,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "kDT_wd_oMCVlMyxzE-EWC"
+							"value": "{{orderid}}"
 						}
 					]
 				}
@@ -254,12 +422,25 @@
 		},
 		{
 			"name": "Register API Client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);   // Means: Expected code is 200\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n   \"clientName\": \"Eiman\",\r\n   \"clientEmail\": \"Eiman1234@example.com\"\r\n}\r\n",
+					"raw": "{\r\n   \"clientName\": \"Eiman5\",\r\n   \"clientEmail\": \"Eiman12345@example.com\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
