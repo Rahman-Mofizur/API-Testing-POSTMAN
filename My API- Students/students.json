@@ -1,0 +1,74 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "Mohammed Mofizur Rahman",
+      "location": "Chittagong",
+      "phone": "01881414380",
+      "courses": [
+        "Java",
+        "Postman"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Mohammed Eiman",
+      "location": "Jeddah",
+      "phone": "01881414390",
+      "courses": [
+        "Python",
+        "Selenium"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Junied Tazrian",
+      "location": "Chittagong",
+      "phone": "01779746565",
+      "courses": [
+        "Jira",
+        "C++"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Raiyan Mashrafi",
+      "location": "Dhaka",
+      "phone": "01779749696",
+      "courses": [
+        "JavaScript",
+        "ClickUp"
+      ]
+    },
+    {
+      "name": "Ahasanul Islam",
+      "location": "Dhaka",
+      "phone": "01779749696",
+      "courses": [
+        "PHP",
+        "Laravel"
+      ],
+      "id": 5
+    },
+    {
+      "name": "Riduanul Karim Mohin",
+      "location": "Dhaka",
+      "phone": "01779749696",
+      "courses": [
+        "IELTS",
+        "Economics"
+      ],
+      "id": 6
+    },
+    {
+      "name": "Dihan Mahmud",
+      "location": "Chittagong",
+      "phone": "01919749696",
+      "courses": [
+        "Designing",
+        "AutoCAD"
+      ],
+      "id": 7
+    }
+  ]
+}

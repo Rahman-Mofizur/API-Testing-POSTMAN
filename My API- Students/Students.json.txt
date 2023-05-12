@@ -1,0 +1,50 @@
+
+Crated my own Api:
+
+	This is an API named Students
+
+
+{
+    "students": [
+        {
+            "id":1,
+            "name":"Mohammed Mofizur Rahman",
+            "location":"Chittagong",
+            "phone":"01881414380",
+            "courses":[
+                "Java",
+                "Postman"
+            ]
+        },
+        {
+            "id":2,
+            "name":"Mohammed Eiman",
+            "location":"Jeddah",
+            "phone":"01881414390",
+            "courses":[
+                "Python",
+                "Selenium"
+            ]
+        },
+        {
+            "id":3,
+            "name":"Junied Tazrian",
+            "location":"Chittagong",
+            "phone":"01779746565",
+            "courses":[
+                "Jira",
+                "C++"
+            ]
+        },
+        {
+            "id":3,
+            "name":"Raiyan Mashrafi",
+            "location":"Dhaka",
+            "phone":"01779749696",
+            "courses":[
+                "JavaScript",
+                "ClickUp"
+            ]
+        }
+    ]
+}
