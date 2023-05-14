@@ -9,13 +9,85 @@
 	"item": [
 		{
 			"name": "Get Students",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// 1\r",
+							"// Status Check= 200 (by value)\r",
+							"pm.test(\"Test-Name: Status code 200 Ok, using Normal Function\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"pm.test(\"Test-Name: Status code 200 Ok, Using Arrow Function\", ()=> {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"// OR Status Check= OK (by Key)\r",
+							"pm.test(\"Test-Name: GET Status check Successful\", ()=> {\r",
+							"    pm.response.to.have.status(\"OK\");\r",
+							"})\r",
+							"\r",
+							"// Another way, Multiple Status Check\r",
+							"pm.test(\"Test-Name: Get Status code for one of the staus code 200 or 201\", () => {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"})\r",
+							"\r",
+							"\r",
+							"// 2\r",
+							"// Content-Type in Headers\r",
+							"pm.test(\"Test-Name: Content Type, Okay\", ()=> {\r",
+							"    pm.response.to.have.header(\"Content-Type\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Checking Content-Type value\r",
+							"pm.test(\"Test-Name: Content-Type = application/json, Okay \", ()=> {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.eql(\"application/json; charset=utf-8\");\r",
+							"});\r",
+							"\r",
+							"// 3. Testing the response time & Response size\r",
+							"pm.test(\"Test-Name: Response Time must be below 100 ms.\", ()=> {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(100);\r",
+							"});\r",
+							"\r",
+							"// 4. Testing Response Body for a single Student using array of jsonData, which choose 1 student as a time \r",
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Test-Name: Every Student is an object here. Check it!\", ()=> {\r",
+							"    pm.expect(jsonData[0]).to.be.an(\"object\");\r",
+							"});\r",
+							"\r",
+							"//  We can also check the response body of student properties like id, name, ect. \r",
+							"pm.test(\"Test-Name: Every Student is an object & Every Student has some other Data types like: Name is string, id is integer/ number, courses are array. Checking it!\", ()=> {\r",
+							"    pm.expect(jsonData[0]).to.be.an(\"object\");\r",
+							"    pm.expect(jsonData[0].id).to.be.a(\"number\");\r",
+							"    pm.expect(jsonData[0].name).to.be.a(\"string\");\r",
+							"    pm.expect(jsonData[0].courses).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{studentId}}",
+					"raw": "http://localhost:3000/students",
+					"protocol": "http",
 					"host": [
-						"{{studentId}}"
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"students"
 					]
 				}
 			},
@@ -23,6 +95,20 @@
 		},
 		{
 			"name": "Get Single Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"pm.test(\"Test-Name: Json Data types are ok\", ()=> {\r",
+							"    pm.expect(jsonData).to.be.an(\"object\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -40,7 +126,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "6"
+							"value": "1"
 						}
 					]
 				}
@@ -148,7 +234,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/students/7",
+					"raw": "http://localhost:3000/students/8",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -156,7 +242,7 @@
 					"port": "3000",
 					"path": [
 						"students",
-						"7"
+						"8"
 					]
 				}
 			},
